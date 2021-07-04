@@ -1,8 +1,5 @@
 package org.rodrigo.cursomc.resources;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.rodrigo.cursomc.domain.Categoria;
 import org.rodrigo.cursomc.services.CategoriaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,20 +16,20 @@ public class CategoriaResource {
 	@Autowired
 	CategoriaService service;
 
-	@GetMapping
-	public List<Categoria> listar() {
-		Categoria cat1;
-		Categoria cat2;
-
-		cat1 = new Categoria(1, "Informática");
-		cat2 = Categoria.builder().id(2).nome("Escritorio").build();
-
-		List<Categoria> listaCategoria = new ArrayList<>();
-		listaCategoria.add(cat1);
-		listaCategoria.add(cat2);
-
-		return listaCategoria;
-	}
+//	@GetMapping
+//	public List<Categoria> listar() {
+//		Categoria cat1;
+//		Categoria cat2;
+//
+//		cat1 = new Categoria(1, "Informática");
+//		cat2 = Categoria.builder().id(2).nome("Escritorio").build();
+//
+//		List<Categoria> listaCategoria = new ArrayList<>();
+//		listaCategoria.add(cat1);
+//		listaCategoria.add(cat2);
+//
+//		return listaCategoria;
+//	}
 
 	@GetMapping(value = "/{id}")
 	public ResponseEntity<?> find(@PathVariable Integer id) {
