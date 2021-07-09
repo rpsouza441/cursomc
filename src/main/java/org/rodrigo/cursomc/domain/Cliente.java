@@ -28,7 +28,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Cliente implements Serializable {
 
-
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -48,6 +47,10 @@ public class Cliente implements Serializable {
 	@OneToMany(mappedBy = "cliente")
 	@Builder.Default
 	private List<Endereco> listEndereco = new ArrayList<>();
+	
+	@OneToMany(mappedBy = "cliente")
+	@Builder.Default
+	private List<Pedido> listaPedido = new ArrayList<>();
 
 	public Cliente(Integer id, String nome, String email, String cpf_cnpj, TipoCliente tipo) {
 		super();
@@ -57,21 +60,8 @@ public class Cliente implements Serializable {
 		this.cpf_cnpj = cpf_cnpj;
 		this.tipo = tipo.getCod();
 	}
-	
 
-	public Cliente(Integer id, String nome, String email, String cpf_cnpj, Integer tipo, Set<String> telefones,
-			List<Endereco> listEndereco) {
-		super();
-		this.id = id;
-		this.nome = nome;
-		this.email = email;
-		this.cpf_cnpj = cpf_cnpj;
-		this.tipo = tipo;
-		this.telefones = telefones;
-		this.listEndereco = listEndereco;
-	}
-	
-	public static class ClienteBuilder{
+	public static class ClienteBuilder {
 		public ClienteBuilder tipo(TipoCliente tipo) {
 			this.tipo = tipo.getCod();
 			return this;
@@ -85,7 +75,18 @@ public class Cliente implements Serializable {
 	public void setTipo(TipoCliente tipo) {
 		this.tipo = tipo.getCod();
 	}
-	
-	
-	
+
+	public Cliente(Integer id, String nome, String email, String cpf_cnpj, Integer tipo, Set<String> telefones,
+			List<Endereco> listEndereco, List<Pedido> listaPedido) {
+		super();
+		this.id = id;
+		this.nome = nome;
+		this.email = email;
+		this.cpf_cnpj = cpf_cnpj;
+		this.tipo = tipo;
+		this.telefones = telefones;
+		this.listEndereco = listEndereco;
+		this.listaPedido = listaPedido;
+	}
+
 }
