@@ -14,10 +14,11 @@ import javax.persistence.OneToOne;
 
 import org.rodrigo.cursomc.domain.enums.EstadoPagamento;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.experimental.SuperBuilder;
 
 @Entity
@@ -35,7 +36,8 @@ public abstract class Pagamento implements Serializable {
 	private Integer id;
 	private Integer estado;
 
-	@JsonBackReference
+	@JsonIgnore
+    @Getter(onMethod = @__( @JsonIgnore ))
 	@OneToOne
 	@JoinColumn(name = "pedido_id")
 	@MapsId

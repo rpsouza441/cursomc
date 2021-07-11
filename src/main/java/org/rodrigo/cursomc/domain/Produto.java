@@ -15,13 +15,13 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
@@ -42,7 +42,8 @@ public class Produto implements Serializable {
 	private @NonNull String nome;
 	private @NonNull Double preco;
 
-	@JsonBackReference
+	@JsonIgnore
+    @Getter(onMethod = @__( @JsonIgnore ))
 	@ManyToMany
 	@JoinTable(name = "PRODUTO_CATEGORIA", joinColumns = @JoinColumn(name = "produto_id"), inverseJoinColumns = @JoinColumn(name = "categoria_id"))
 	private @Builder.Default List<Categoria> listaCategoria = new ArrayList<>();

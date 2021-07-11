@@ -16,12 +16,12 @@ import javax.persistence.OneToMany;
 
 import org.rodrigo.cursomc.domain.enums.TipoCliente;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
@@ -47,12 +47,12 @@ public class Cliente implements Serializable {
 	@Builder.Default
 	private Set<String> telefones = new HashSet<>();
 
-	@JsonManagedReference
 	@OneToMany(mappedBy = "cliente")
 	@Builder.Default
 	private List<Endereco> listEndereco = new ArrayList<>();
 	
-	@JsonBackReference
+	@JsonIgnore
+    @Getter(onMethod = @__( @JsonIgnore ))
 	@OneToMany(mappedBy = "cliente")
 	@Builder.Default
 	private List<Pedido> listaPedido = new ArrayList<>();
