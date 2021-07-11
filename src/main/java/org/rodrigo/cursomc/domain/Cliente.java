@@ -20,18 +20,21 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Entity
 @Data
 @Builder
 @NoArgsConstructor
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Cliente implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+    @EqualsAndHashCode.Include
 	private Integer id;
 	private String nome;
 	private String email;
@@ -88,5 +91,6 @@ public class Cliente implements Serializable {
 		this.listEndereco = listEndereco;
 		this.listaPedido = listaPedido;
 	}
+
 
 }

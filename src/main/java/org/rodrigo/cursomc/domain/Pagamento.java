@@ -15,22 +15,27 @@ import javax.persistence.OneToOne;
 import org.rodrigo.cursomc.domain.enums.EstadoPagamento;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.experimental.SuperBuilder;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 @Data
+@SuperBuilder
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public abstract class Pagamento implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+    @EqualsAndHashCode.Include
 	private Integer id;
 	private Integer estado;
 	
 	@OneToOne
 	@JoinColumn(name="pedido_id")
-	@MapsId
+	@MapsId 
 	private Pedido pedido;
 	
 	

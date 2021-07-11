@@ -1,0 +1,63 @@
+package org.rodrigo.cursomc.domain;
+
+import javax.persistence.EmbeddedId;
+import javax.persistence.Entity;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+
+@Entity
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+public class ItemPedido {
+
+	@EmbeddedId
+    @EqualsAndHashCode.Include
+	private ItemPedidoPK id = new ItemPedidoPK();
+	private Double desconto;
+	private Integer quantidade;
+	private Double preco;
+
+	public ItemPedido(Pedido pedido, Produto produto, Double desconto, Integer quantidade, Double preco) {
+		super();
+		id.setPedido(pedido);
+		id.setProduto(produto);
+		this.desconto = desconto;
+		this.quantidade = quantidade;
+		this.preco = preco;
+	}
+
+	public Produto getProduto() {
+		return id.getProduto();
+	}
+
+	public Pedido getPedido() {
+		return id.getPedido();
+	}
+
+	public ItemPedidoPK getId() {
+		return id;
+	}
+
+	public void setId(Pedido pedido, Produto produto) {
+		this.id.setPedido(pedido);
+		this.id.setProduto(produto);
+	}
+
+	public static class ItemPedidoBuilder {
+		public ItemPedidoBuilder ItemPedidoPK(Pedido pedido, Produto produto) {
+			if (this.id == null) {
+				this.id = new ItemPedidoPK();
+			}
+			this.id.setPedido(pedido);
+			this.id.setProduto(produto);
+			return this;
+		}
+	}
+}

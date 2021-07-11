@@ -8,10 +8,12 @@ import org.rodrigo.cursomc.domain.enums.EstadoPagamento;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 
 @Entity
 @Getter
 @Setter
+@SuperBuilder
 public class PagamentoComBoleto extends Pagamento {
 	private static final long serialVersionUID = 1L;
 
