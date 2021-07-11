@@ -4,8 +4,10 @@ import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.validation.Valid;
+
 import org.rodrigo.cursomc.domain.Categoria;
-import org.rodrigo.cursomc.dot.CategoriaDTO;
+import org.rodrigo.cursomc.dto.CategoriaDTO;
 import org.rodrigo.cursomc.services.CategoriaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -36,13 +38,15 @@ public class CategoriaResource {
 	}
 	
 	@PostMapping()
-	public ResponseEntity<Void> insert(@RequestBody Categoria obj) {
+	public ResponseEntity<Void> insert(@Valid @RequestBody CategoriaDTO objDTO) {
+		Categoria obj = service.fromDTO(objDTO);
 		obj = service.insert(obj);
 		URI uri = gerarURI(obj);
 		return ResponseEntity.created(uri).build();
 	}
 	@PutMapping(value = "/{id}")
-	public ResponseEntity<Void> put(@RequestBody Categoria obj, @PathVariable Integer id) {
+	public ResponseEntity<Void> put(@Valid @RequestBody CategoriaDTO dto, @PathVariable Integer id) {
+		Categoria obj = service.fromDTO(dto);
 		obj.setId(id);
 		obj=service.update(obj);
 		return ResponseEntity.noContent().build();

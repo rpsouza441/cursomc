@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.rodrigo.cursomc.domain.Categoria;
+import org.rodrigo.cursomc.dto.CategoriaDTO;
 import org.rodrigo.cursomc.repositories.CategoriaRepository;
 import org.rodrigo.cursomc.services.exception.DataIntegrityException;
 import org.rodrigo.cursomc.services.exception.ObjectNotFoundException;
@@ -54,5 +55,9 @@ public class CategoriaService {
 		PageRequest p = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderBy);
 		return repo.findAll(p);
 
+	}
+	
+	public Categoria fromDTO(CategoriaDTO dto) {
+		return Categoria.builder().id(dto.getId()).nome(dto.getNome()).build();
 	}
 }
