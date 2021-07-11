@@ -14,6 +14,8 @@ import javax.persistence.OneToOne;
 
 import org.rodrigo.cursomc.domain.enums.EstadoPagamento;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.SuperBuilder;
@@ -29,16 +31,16 @@ public abstract class Pagamento implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-    @EqualsAndHashCode.Include
+	@EqualsAndHashCode.Include
 	private Integer id;
 	private Integer estado;
-	
+
+	@JsonBackReference
 	@OneToOne
-	@JoinColumn(name="pedido_id")
-	@MapsId 
+	@JoinColumn(name = "pedido_id")
+	@MapsId
 	private Pedido pedido;
-	
-	
+
 	public Pagamento(Integer id, EstadoPagamento estado, Pedido pedido) {
 		super();
 		this.id = id;
@@ -49,7 +51,6 @@ public abstract class Pagamento implements Serializable {
 	public Pagamento() {
 		super();
 	}
-	
 
 	public EstadoPagamento getEstado() {
 		return EstadoPagamento.toEnum(estado);
@@ -59,7 +60,4 @@ public abstract class Pagamento implements Serializable {
 		this.estado = estado.getCod();
 	}
 
-	
-	
-	
 }

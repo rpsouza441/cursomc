@@ -3,6 +3,8 @@ package org.rodrigo.cursomc.domain;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -17,8 +19,9 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class ItemPedido {
 
+	@JsonIgnore
 	@EmbeddedId
-    @EqualsAndHashCode.Include
+	@EqualsAndHashCode.Include
 	private ItemPedidoPK id = new ItemPedidoPK();
 	private Double desconto;
 	private Integer quantidade;
@@ -32,11 +35,12 @@ public class ItemPedido {
 		this.quantidade = quantidade;
 		this.preco = preco;
 	}
-
+	
 	public Produto getProduto() {
 		return id.getProduto();
 	}
 
+	@JsonIgnore
 	public Pedido getPedido() {
 		return id.getPedido();
 	}

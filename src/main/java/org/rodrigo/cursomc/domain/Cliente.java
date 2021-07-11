@@ -16,6 +16,7 @@ import javax.persistence.OneToMany;
 
 import org.rodrigo.cursomc.domain.enums.TipoCliente;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import lombok.Builder;
@@ -51,6 +52,7 @@ public class Cliente implements Serializable {
 	@Builder.Default
 	private List<Endereco> listEndereco = new ArrayList<>();
 	
+	@JsonBackReference
 	@OneToMany(mappedBy = "cliente")
 	@Builder.Default
 	private List<Pedido> listaPedido = new ArrayList<>();
