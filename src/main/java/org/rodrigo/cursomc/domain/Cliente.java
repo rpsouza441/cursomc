@@ -17,6 +17,7 @@ import javax.persistence.OneToMany;
 import org.rodrigo.cursomc.domain.enums.TipoCliente;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.Builder;
 import lombok.Data;
@@ -52,6 +53,7 @@ public class Cliente implements Serializable {
 	private List<Endereco> listEndereco = new ArrayList<>();
 	
 	@JsonIgnore
+    //@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Getter(onMethod = @__( @JsonIgnore ))
 	@OneToMany(mappedBy = "cliente")
 	@Builder.Default
