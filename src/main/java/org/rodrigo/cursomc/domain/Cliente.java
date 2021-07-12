@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
@@ -17,7 +18,6 @@ import javax.persistence.OneToMany;
 import org.rodrigo.cursomc.domain.enums.TipoCliente;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.Builder;
 import lombok.Data;
@@ -48,7 +48,7 @@ public class Cliente implements Serializable {
 	@Builder.Default
 	private Set<String> telefones = new HashSet<>();
 
-	@OneToMany(mappedBy = "cliente")
+	@OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL)
 	@Builder.Default
 	private List<Endereco> listEndereco = new ArrayList<>();
 	
@@ -65,7 +65,7 @@ public class Cliente implements Serializable {
 		this.nome = nome;
 		this.email = email;
 		this.cpf_cnpj = cpf_cnpj;
-		this.tipo = tipo.getCod();
+		this.tipo = (tipo==null) ? null : tipo.getCod();
 	}
 
 	public static class ClienteBuilder {
