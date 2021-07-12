@@ -36,7 +36,7 @@ public class CategoriaResource {
 
 		return ResponseEntity.ok().body(obj);
 	}
-	
+
 	@PostMapping()
 	public ResponseEntity<Void> insert(@Valid @RequestBody CategoriaDTO objDTO) {
 		Categoria obj = service.fromDTO(objDTO);
@@ -44,41 +44,39 @@ public class CategoriaResource {
 		URI uri = gerarURI(obj);
 		return ResponseEntity.created(uri).build();
 	}
+
 	@PutMapping(value = "/{id}")
 	public ResponseEntity<Void> put(@Valid @RequestBody CategoriaDTO dto, @PathVariable Integer id) {
 		Categoria obj = service.fromDTO(dto);
 		obj.setId(id);
-		obj=service.update(obj);
+		obj = service.update(obj);
 		return ResponseEntity.noContent().build();
 
-		
 	}
+
 	@DeleteMapping(value = "/{id}")
 	public ResponseEntity<Void> delete(@PathVariable Integer id) {
 		service.delete(id);
 
 		return ResponseEntity.noContent().build();
 	}
-	
+
 	@GetMapping()
 	public ResponseEntity<List<CategoriaDTO>> findAll() {
 		List<Categoria> list = service.findAll();
 		List<CategoriaDTO> listDTO = list.stream().map(obj -> new CategoriaDTO(obj)).collect(Collectors.toList());
 		return ResponseEntity.ok().body(listDTO);
 	}
-	
+
 	@GetMapping(value = "/page")
-	public ResponseEntity<Page<CategoriaDTO>> findPage(
-			@RequestParam(value = "page", defaultValue = "0") Integer page,
-			@RequestParam(value = "linesPerPage", defaultValue = "24") Integer linesPerPage, 
-			@RequestParam(value = "orderBy", defaultValue = "nome") String orderBy, 
+	public ResponseEntity<Page<CategoriaDTO>> findPage(@RequestParam(value = "page", defaultValue = "0") Integer page,
+			@RequestParam(value = "linesPerPage", defaultValue = "24") Integer linesPerPage,
+			@RequestParam(value = "orderBy", defaultValue = "nome") String orderBy,
 			@RequestParam(value = "direction", defaultValue = "ASC") String direction) {
 		Page<Categoria> list = service.findPage(page, linesPerPage, orderBy, direction);
 		Page<CategoriaDTO> listDTO = list.map(obj -> new CategoriaDTO(obj));
 		return ResponseEntity.ok().body(listDTO);
 	}
-	
-
 
 	private URI gerarURI(Categoria obj) {
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();

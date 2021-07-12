@@ -3,9 +3,14 @@ package org.rodrigo.cursomc.services;
 import java.util.List;
 import java.util.Optional;
 
+import org.rodrigo.cursomc.domain.Cidade;
 import org.rodrigo.cursomc.domain.Cliente;
+import org.rodrigo.cursomc.domain.Endereco;
+import org.rodrigo.cursomc.domain.enums.TipoCliente;
 import org.rodrigo.cursomc.dto.ClienteDTO;
+import org.rodrigo.cursomc.dto.ClienteNewDTO;
 import org.rodrigo.cursomc.repositories.ClienteRepository;
+import org.rodrigo.cursomc.repositories.EnderecoRepository;
 import org.rodrigo.cursomc.services.exception.DataIntegrityException;
 import org.rodrigo.cursomc.services.exception.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,22 +19,29 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class ClienteService {
 
 	@Autowired
 	ClienteRepository repo;
+	
+	@Autowired
+	EnderecoRepository enderecoRepo;
 
 	public Cliente find(Integer id) {
 		Optional<Cliente> obj = repo.findById(id);
 		return obj.orElseThrow(() -> new ObjectNotFoundException(
 				"Objeto não encontrado! Id: " + id + ", Tipo: " + Cliente.class.getName()));
 	}
-	
+
+	@Transactional
 	public Cliente insert(Cliente obj) {
 		obj.setId(null);
-		return repo.save(obj);
+		obj = repo.save(obj);
+		enderecoRepo.saveAll(obj.getListEndereco());
+		return obj;
 	}
 
 	public Cliente update(Cliente obj) {
@@ -57,11 +69,40 @@ public class ClienteService {
 		return repo.findAll(p);
 
 	}
-	
+
 	public Cliente fromDTO(ClienteDTO dto) {
 		return Cliente.builder().id(dto.getId()).nome(dto.getNome()).email(dto.getEmail()).build();
 	}
-	
+
+	public Cliente fromDTO(ClienteNewDTO dto) {
+		Cliente cli = Cliente.builder().id(null).nome(dto.getNome()).email(dto.getEmail()).cpf_cnpj(dto.getCpf_cnpj())
+				.tipo(TipoCliente.toEnum(dto.getTipo())).build();
+
+		Cidade c = Cidade.builder().id(dto.getCidadeId()).build();
+
+		Endereco e = Endereco.builder().logradouro(dto.getLogradouro()).numero(dto.getNumero())
+				.complemento(dto.getComplemento()).bairro(dto.getBairro()).cep(dto.getCep()).cliente(cli).cidade(c)
+				.build();
+
+		cli.getListEndereco().add(e);
+
+		confereSeExitePreencheTelefones(dto, cli);
+
+		return cli;
+	}
+
+	private void confereSeExitePreencheTelefones(ClienteNewDTO dto, Cliente cli) {
+		if (dto.getTelefone1() != null) {
+			cli.getTelefones().add(dto.getTelefone1());
+		}
+		if (dto.getTelefone2() != null) {
+			cli.getTelefones().add(dto.getTelefone2());
+		}
+		if (dto.getTelefone3() != null) {
+			cli.getTelefones().add(dto.getTelefone3());
+		}
+	}
+
 	private void updateData(Cliente newObj, Cliente obj) {
 		newObj.setNome(obj.getNome());
 		newObj.setEmail(obj.getEmail());

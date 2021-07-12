@@ -8,6 +8,7 @@ import javax.validation.Valid;
 
 import org.rodrigo.cursomc.domain.Cliente;
 import org.rodrigo.cursomc.dto.ClienteDTO;
+import org.rodrigo.cursomc.dto.ClienteNewDTO;
 import org.rodrigo.cursomc.services.ClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -38,7 +39,7 @@ public class ClienteResource {
 	}
 
 	@PostMapping()
-	public ResponseEntity<Void> insert(@Valid @RequestBody ClienteDTO objDTO) {
+	public ResponseEntity<Void> insert(@Valid @RequestBody ClienteNewDTO objDTO) {
 		Cliente obj = service.fromDTO(objDTO);
 		obj = service.insert(obj);
 		URI uri = gerarURI(obj);
