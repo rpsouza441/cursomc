@@ -48,7 +48,7 @@ public class Cliente implements Serializable {
 	@Builder.Default
 	private Set<String> telefones = new HashSet<>();
 
-	@OneToMany(mappedBy = "cliente")
+	@OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL)
 	@Builder.Default
 	private List<Endereco> listEndereco = new ArrayList<>();
 	
