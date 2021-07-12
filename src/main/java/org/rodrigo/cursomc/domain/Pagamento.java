@@ -37,7 +37,7 @@ public abstract class Pagamento implements Serializable {
 	private Integer estado;
 
 	@JsonIgnore
-    @Getter(onMethod = @__( @JsonIgnore ))
+	@Getter(onMethod = @__(@JsonIgnore))
 	@OneToOne
 	@JoinColumn(name = "pedido_id")
 	@MapsId
@@ -46,7 +46,7 @@ public abstract class Pagamento implements Serializable {
 	public Pagamento(Integer id, EstadoPagamento estado, Pedido pedido) {
 		super();
 		this.id = id;
-		this.estado = estado.getCod();
+		this.estado = (estado == null) ? null : estado.getCod();
 		this.pedido = pedido;
 	}
 
