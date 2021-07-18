@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class PedidoResource {
 
 	@Autowired
-	PedidoService service;
+	private  PedidoService service;
 
 	@GetMapping(value = "/{id}")
 	public ResponseEntity<?> find(@PathVariable Integer id) {

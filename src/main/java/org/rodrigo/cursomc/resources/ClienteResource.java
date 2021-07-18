@@ -29,7 +29,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 public class ClienteResource {
 
 	@Autowired
-	ClienteService service;
+	private ClienteService service;
 
 	@GetMapping(value = "/{id}")
 	public ResponseEntity<?> find(@PathVariable Integer id) {

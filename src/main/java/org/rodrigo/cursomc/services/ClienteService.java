@@ -25,10 +25,10 @@ import org.springframework.transaction.annotation.Transactional;
 public class ClienteService {
 
 	@Autowired
-	ClienteRepository repo;
+	private ClienteRepository repo;
 	
 	@Autowired
-	EnderecoRepository enderecoRepo;
+	private EnderecoRepository enderecoRepo;
 
 	public Cliente find(Integer id) {
 		Optional<Cliente> obj = repo.findById(id);

@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 public class PedidoService {
 
 	@Autowired
-	PedidoRepository repo;
+	private PedidoRepository repo;
 
 	public Pedido find(Integer id) {
 		Optional<Pedido> obj = repo.findById(id);

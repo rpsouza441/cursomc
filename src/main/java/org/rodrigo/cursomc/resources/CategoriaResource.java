@@ -28,7 +28,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 public class CategoriaResource {
 
 	@Autowired
-	CategoriaService service;
+	private CategoriaService service;
 
 	@GetMapping(value = "/{id}")
 	public ResponseEntity<?> find(@PathVariable Integer id) {

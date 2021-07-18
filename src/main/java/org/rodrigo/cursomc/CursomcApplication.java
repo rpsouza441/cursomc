@@ -61,23 +61,48 @@ public class CursomcApplication implements CommandLineRunner {
 
 		Categoria cat1 = Categoria.builder().id(null).nome("Informatica").build();
 		Categoria cat2 = Categoria.builder().id(null).nome("Escritorio").build();
-		Categoria cat3= Categoria.builder().id(null).nome("Cama mesa e banho").build();
+		Categoria cat3 = Categoria.builder().id(null).nome("Cama mesa e banho").build();
 		Categoria cat4 = Categoria.builder().id(null).nome("Eletrônicos").build();
 		Categoria cat5 = Categoria.builder().id(null).nome("Jardinagem").build();
 		Categoria cat6 = Categoria.builder().id(null).nome("Decoração").build();
 		Categoria cat7 = Categoria.builder().id(null).nome("Perfumaria").build();
-		
-		
+
 		Produto p1 = Produto.builder().id(null).nome("computador").preco(2000.0).build();
 		Produto p2 = Produto.builder().id(null).nome("Impressora").preco(800.0).build();
 		Produto p3 = Produto.builder().id(null).nome("Mouse").preco(80.0).build();
-
+		Produto p4 = Produto.builder().id(null).nome("Mesa de ecritorio").preco(300.0).build();
+		Produto p5 = Produto.builder().id(null).nome("Toalha").preco(50.0).build();
+		Produto p6 = Produto.builder().id(null).nome("Colcha").preco(200.0).build();
+		Produto p7 = Produto.builder().id(null).nome("TV").preco(1200.0).build();
+		Produto p8 = Produto.builder().id(null).nome("Roçadeira").preco(800.0).build();
+		Produto p9 = Produto.builder().id(null).nome("Abajour").preco(100.0).build();
+		Produto p10 = Produto.builder().id(null).nome("Pendente").preco(180.0).build();
+		Produto p11 = Produto.builder().id(null).nome("Shampoo").preco(90.0).build();
 		cat1.getListaProduto().addAll(Arrays.asList(p1, p2, p3));
-		cat1.getListaProduto().addAll(Arrays.asList(p2));
+		cat2.getListaProduto().addAll(Arrays.asList(p2));
 
 		p1.getListaCategoria().addAll(Arrays.asList(cat1));
 		p2.getListaCategoria().addAll(Arrays.asList(cat1, cat2));
 		p3.getListaCategoria().addAll(Arrays.asList(cat1));
+
+		cat2.getListaProduto().addAll(Arrays.asList(p2, p4));
+		cat3.getListaProduto().addAll(Arrays.asList(p5, p6));
+		cat4.getListaProduto().addAll(Arrays.asList(p1, p2, p3, p7));
+		cat5.getListaProduto().addAll(Arrays.asList(p8));
+		cat6.getListaProduto().addAll(Arrays.asList(p9, p10));
+		cat7.getListaProduto().addAll(Arrays.asList(p11));
+
+		p1.getListaCategoria().addAll(Arrays.asList(cat1, cat4));
+		p2.getListaCategoria().addAll(Arrays.asList(cat1, cat2, cat4));
+		p3.getListaCategoria().addAll(Arrays.asList(cat1, cat4));
+		p4.getListaCategoria().addAll(Arrays.asList(cat2));
+		p5.getListaCategoria().addAll(Arrays.asList(cat3));
+		p6.getListaCategoria().addAll(Arrays.asList(cat3));
+		p7.getListaCategoria().addAll(Arrays.asList(cat4));
+		p8.getListaCategoria().addAll(Arrays.asList(cat5));
+		p9.getListaCategoria().addAll(Arrays.asList(cat6));
+		p10.getListaCategoria().addAll(Arrays.asList(cat6));
+		p11.getListaCategoria().addAll(Arrays.asList(cat7));
 
 		Estado est1 = Estado.builder().id(null).nome("Minas Gerais").build();
 		Estado est2 = Estado.builder().id(null).nome("Sao Paulo").build();
@@ -116,8 +141,8 @@ public class CursomcApplication implements CommandLineRunner {
 
 		cli1.getListaPedido().addAll((Arrays.asList(ped1, ped2)));
 
-		catRepo.saveAll(Arrays.asList(cat1, cat2,cat3,cat4,cat5,cat6,cat7));
-		prodRepo.saveAll(Arrays.asList(p1, p2, p3));
+		catRepo.saveAll(Arrays.asList(cat1, cat2, cat3, cat4, cat5, cat6, cat7));
+		prodRepo.saveAll(Arrays.asList(p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11));
 
 		estaRepo.saveAll(Arrays.asList(est1, est2));
 		cidRepo.saveAll(Arrays.asList(c1, c2, c3));
