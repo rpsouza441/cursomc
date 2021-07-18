@@ -53,6 +53,12 @@ public class Pedido implements Serializable {
 	
 	@OneToMany(mappedBy = "id.pedido")
 	private @Builder.Default Set<ItemPedido> listaItemPedido = new HashSet<>();
+	
+	
+	public double getValorTotal() {
+		
+		return listaItemPedido.stream().mapToDouble(x -> x.getSubTotal()).sum();
+	}
 
 
 }
