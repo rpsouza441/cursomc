@@ -37,12 +37,14 @@ public class Cliente implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-    @EqualsAndHashCode.Include
+	@EqualsAndHashCode.Include
 	private Integer id;
 	private String nome;
-	
-	@Column(unique= true)
+
+	@Column(unique = true)
 	private String email;
+	@JsonIgnore
+	private String senha;
 	private String cpf_cnpj;
 	private Integer tipo;
 
@@ -54,21 +56,22 @@ public class Cliente implements Serializable {
 	@OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL)
 	@Builder.Default
 	private List<Endereco> listEndereco = new ArrayList<>();
-	
+
 	@JsonIgnore
-    //@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    @Getter(onMethod = @__( @JsonIgnore ))
+	// @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+	@Getter(onMethod = @__(@JsonIgnore))
 	@OneToMany(mappedBy = "cliente")
 	@Builder.Default
 	private List<Pedido> listaPedido = new ArrayList<>();
 
-	public Cliente(Integer id, String nome, String email, String cpf_cnpj, TipoCliente tipo) {
+	public Cliente(Integer id, String nome, String email, String senha, String cpf_cnpj, TipoCliente tipo) {
 		super();
 		this.id = id;
 		this.nome = nome;
+		this.senha = senha;
 		this.email = email;
 		this.cpf_cnpj = cpf_cnpj;
-		this.tipo = (tipo==null) ? null : tipo.getCod();
+		this.tipo = (tipo == null) ? null : tipo.getCod();
 	}
 
 	public static class ClienteBuilder {
@@ -86,11 +89,12 @@ public class Cliente implements Serializable {
 		this.tipo = tipo.getCod();
 	}
 
-	public Cliente(Integer id, String nome, String email, String cpf_cnpj, Integer tipo, Set<String> telefones,
-			List<Endereco> listEndereco, List<Pedido> listaPedido) {
+	public Cliente(Integer id, String nome, String email, String senha, String cpf_cnpj, Integer tipo,
+			Set<String> telefones, List<Endereco> listEndereco, List<Pedido> listaPedido) {
 		super();
 		this.id = id;
 		this.nome = nome;
+		this.senha = senha;
 		this.email = email;
 		this.cpf_cnpj = cpf_cnpj;
 		this.tipo = tipo;
@@ -98,6 +102,5 @@ public class Cliente implements Serializable {
 		this.listEndereco = listEndereco;
 		this.listaPedido = listaPedido;
 	}
-
 
 }
