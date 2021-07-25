@@ -16,6 +16,7 @@ import org.rodrigo.cursomc.domain.PagamentoComCartao;
 import org.rodrigo.cursomc.domain.Pedido;
 import org.rodrigo.cursomc.domain.Produto;
 import org.rodrigo.cursomc.domain.enums.EstadoPagamento;
+import org.rodrigo.cursomc.domain.enums.Perfil;
 import org.rodrigo.cursomc.domain.enums.TipoCliente;
 import org.rodrigo.cursomc.repositories.CategoriaRepository;
 import org.rodrigo.cursomc.repositories.CidadeRepository;
@@ -29,7 +30,6 @@ import org.rodrigo.cursomc.repositories.ProdutoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-
 
 @Service
 public class DBService {
@@ -112,16 +112,23 @@ public class DBService {
 		est2.getListCidade().addAll((Arrays.asList(c2, c3)));
 
 		Cliente cli1 = Cliente.builder().id(null).nome("Maria Silva").email("rpsouzati@gmail.com")
-				.senha(encoder.encode("123456"))
-				.cpf_cnpj("872.998.810-12").tipo(TipoCliente.PESSOA_FISICA).build();
+				.senha(encoder.encode("123456")).cpf_cnpj("87299881012").tipo(TipoCliente.PESSOA_FISICA).build();
 		cli1.getTelefones().addAll(Arrays.asList("99999 9999", "99999 8999"));
+
+		Cliente cli2 = Cliente.builder().id(null).nome("Silva").email("rpsouza@gmail.com")
+				.senha(encoder.encode("123456")).cpf_cnpj("70334020077").tipo(TipoCliente.PESSOA_FISICA).build();
+		cli2.getTelefones().addAll(Arrays.asList("99992 9999", "99993 8999"));
+		cli2.addPerfil(Perfil.ADMIN);
 
 		Endereco e1 = Endereco.builder().id(null).logradouro("Rua Flores").numero("300").complemento("apt 303")
 				.bairro("Jardim").cep("38262580").cliente(cli1).cidade(c1).build();
 		Endereco e2 = Endereco.builder().id(null).logradouro("Avenida Marlos").numero("105").complemento("sala 800")
 				.bairro("centro").cep("41262580").cliente(cli1).cidade(c2).build();
+		Endereco e3 = Endereco.builder().id(null).logradouro("Avenida Marlos").numero("105").complemento("sala 800")
+				.bairro("centro").cep("41262580").cliente(cli2).cidade(c2).build();
 
 		cli1.getListEndereco().addAll((Arrays.asList(e1, e2)));
+		cli2.getListEndereco().addAll((Arrays.asList(e3)));
 
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 
@@ -145,8 +152,8 @@ public class DBService {
 		estaRepo.saveAll(Arrays.asList(est1, est2));
 		cidRepo.saveAll(Arrays.asList(c1, c2, c3));
 
-		cliRepo.saveAll(Arrays.asList(cli1));
-		endeRepo.saveAll(Arrays.asList(e1, e2));
+		cliRepo.saveAll(Arrays.asList(cli1,cli2));
+		endeRepo.saveAll(Arrays.asList(e1, e2,e3));
 
 		pedidoRepo.saveAll(Arrays.asList(ped1, ped2));
 		pagamentoRepo.saveAll(Arrays.asList(pagto1, pagto2));
