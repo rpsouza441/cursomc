@@ -3,6 +3,8 @@ package org.rodrigo.cursomc.config;
 import java.text.ParseException;
 
 import org.rodrigo.cursomc.services.DBService;
+import org.rodrigo.cursomc.services.EmailService;
+import org.rodrigo.cursomc.services.SmtpEmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -28,5 +30,10 @@ public class DevConfig {
 
 		dbService.instantiateTestDatabase();
 		return true;
+	}
+	
+	@Bean
+	public EmailService emailService() {
+		return new SmtpEmailService();
 	}
 }

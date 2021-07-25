@@ -108,7 +108,7 @@ public class DBService {
 		est1.getListCidade().addAll((Arrays.asList(c1)));
 		est2.getListCidade().addAll((Arrays.asList(c2, c3)));
 
-		Cliente cli1 = Cliente.builder().id(null).nome("Maria Silva").email("maria@gmail.com")
+		Cliente cli1 = Cliente.builder().id(null).nome("Maria Silva").email("rpsouzati@gmail.com")
 				.cpf_cnpj("872.998.810-12").tipo(TipoCliente.PESSOA_FISICA).build();
 		cli1.getTelefones().addAll(Arrays.asList("99999 9999", "99999 8999"));
 

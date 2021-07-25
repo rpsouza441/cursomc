@@ -5,6 +5,7 @@ import java.text.ParseException;
 import org.rodrigo.cursomc.services.DBService;
 import org.rodrigo.cursomc.services.EmailService;
 import org.rodrigo.cursomc.services.MockEmailService;
+import org.rodrigo.cursomc.services.SmtpEmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -23,9 +24,13 @@ public class TestConfig {
 		return true;
 	}
 
+//	@Bean
+//	public EmailService emailService() {
+//		return new MockEmailService();
+//	}
+
 	@Bean
 	public EmailService emailService() {
-		return new MockEmailService();
+		return new SmtpEmailService();
 	}
-
 }
