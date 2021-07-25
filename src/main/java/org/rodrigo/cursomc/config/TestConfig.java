@@ -3,6 +3,8 @@ package org.rodrigo.cursomc.config;
 import java.text.ParseException;
 
 import org.rodrigo.cursomc.services.DBService;
+import org.rodrigo.cursomc.services.EmailService;
+import org.rodrigo.cursomc.services.MockEmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,4 +22,10 @@ public class TestConfig {
 		dbService.instantiateTestDatabase();
 		return true;
 	}
+
+	@Bean
+	public EmailService emailService() {
+		return new MockEmailService();
+	}
+
 }
