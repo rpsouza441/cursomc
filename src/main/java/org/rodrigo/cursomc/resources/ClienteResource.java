@@ -13,6 +13,7 @@ import org.rodrigo.cursomc.services.ClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -45,7 +46,7 @@ public class ClienteResource {
 		URI uri = gerarURI(obj);
 		return ResponseEntity.created(uri).build();
 	}
-
+	
 	@PutMapping(value = "/{id}")
 	public ResponseEntity<Void> put(@Valid @RequestBody ClienteDTO dto, @PathVariable Integer id) {
 		Cliente obj = service.fromDTO(dto);
@@ -55,7 +56,9 @@ public class ClienteResource {
 
 	}
 
+	
 	@DeleteMapping(value = "/{id}")
+	@PreAuthorize("hasAnyRole('ADMIN')")
 	public ResponseEntity<Void> delete(@PathVariable Integer id) {
 		service.delete(id);
 
@@ -63,6 +66,7 @@ public class ClienteResource {
 	}
 
 	@GetMapping()
+	@PreAuthorize("hasAnyRole('ADMIN')")
 	public ResponseEntity<List<ClienteDTO>> findAll() {
 		List<Cliente> list = service.findAll();
 		List<ClienteDTO> listDTO = list.stream().map(obj -> new ClienteDTO(obj)).collect(Collectors.toList());
@@ -70,6 +74,7 @@ public class ClienteResource {
 	}
 
 	@GetMapping(value = "/page")
+	@PreAuthorize("hasAnyRole('ADMIN')")
 	public ResponseEntity<Page<ClienteDTO>> findPage(@RequestParam(value = "page", defaultValue = "0") Integer page,
 			@RequestParam(value = "linesPerPage", defaultValue = "24") Integer linesPerPage,
 			@RequestParam(value = "orderBy", defaultValue = "nome") String orderBy,
