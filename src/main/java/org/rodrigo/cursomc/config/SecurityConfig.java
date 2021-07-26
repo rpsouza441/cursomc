@@ -3,6 +3,7 @@ package org.rodrigo.cursomc.config;
 import java.util.Arrays;
 
 import org.rodrigo.cursomc.security.JWTAuthenticationFilter;
+import org.rodrigo.cursomc.security.JWTAuthorizationFilter;
 import org.rodrigo.cursomc.security.JWTUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -47,6 +48,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		http.authorizeRequests().antMatchers(HttpMethod.GET, PUBLIC_MATCHERS_GET).permitAll()
 				.antMatchers(PUBLIC_MATCHERS).permitAll().anyRequest().authenticated();
 		http.addFilter(new JWTAuthenticationFilter(authenticationManager(), jwTUtil));
+		http.addFilter(new JWTAuthorizationFilter(authenticationManager(), jwTUtil, userDetailsService));
 		http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 	}
 
