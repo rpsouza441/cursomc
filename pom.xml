@@ -82,7 +82,22 @@
 			<groupId>javax.validation</groupId>
 			<artifactId>validation-api</artifactId>
 		</dependency>
-		
+
+		<!-- Amazon s3 -->
+
+
+		<dependency>
+			<groupId>com.amazonaws</groupId>
+			<artifactId>aws-java-sdk</artifactId>
+			<version>LATEST</version>
+		</dependency>
+
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>LATEST</version>
+		</dependency>
+
 		<!-- Extras -->
 		<dependency>
 			<groupId>org.projectlombok</groupId>

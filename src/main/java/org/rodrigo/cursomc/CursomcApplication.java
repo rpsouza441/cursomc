@@ -1,5 +1,7 @@
 package org.rodrigo.cursomc;
 
+import org.rodrigo.cursomc.services.S3Service;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -7,6 +9,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class CursomcApplication implements CommandLineRunner {
 
+	@Autowired
+	private S3Service s3;
 	
 
 	public static void main(String[] args) {
@@ -15,7 +19,7 @@ public class CursomcApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-
+		s3.uploadFile("D:\\Users\\Rodrigo\\Pictures\\Imagens\\CourseOfEmpire4DestructionCole.jpg");
 
 	}
 
