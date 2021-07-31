@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 @RestController
@@ -46,7 +47,7 @@ public class ClienteResource {
 		URI uri = gerarURI(obj);
 		return ResponseEntity.created(uri).build();
 	}
-	
+
 	@PutMapping(value = "/{id}")
 	public ResponseEntity<Void> put(@Valid @RequestBody ClienteDTO dto, @PathVariable Integer id) {
 		Cliente obj = service.fromDTO(dto);
@@ -56,7 +57,6 @@ public class ClienteResource {
 
 	}
 
-	
 	@DeleteMapping(value = "/{id}")
 	@PreAuthorize("hasAnyRole('ADMIN')")
 	public ResponseEntity<Void> delete(@PathVariable Integer id) {
@@ -87,5 +87,12 @@ public class ClienteResource {
 	private URI gerarURI(Cliente obj) {
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
 		return uri;
+	}
+
+	@PostMapping(value = "/picture")
+	public ResponseEntity<Void> uploadProfilePicture(@RequestParam(name = "file") MultipartFile file) {
+		URI uri = service.uploadProfilePicture(file);
+
+		return ResponseEntity.created(uri).build();
 	}
 }

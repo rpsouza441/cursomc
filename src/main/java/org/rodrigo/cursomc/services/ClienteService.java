@@ -1,9 +1,8 @@
 package org.rodrigo.cursomc.services;
 
+import java.net.URI;
 import java.util.List;
 import java.util.Optional;
-
-import javax.security.auth.message.AuthException;
 
 import org.rodrigo.cursomc.domain.Cidade;
 import org.rodrigo.cursomc.domain.Cliente;
@@ -26,27 +25,31 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class ClienteService {
 
 	@Autowired
 	private ClienteRepository repo;
-	
+
 	@Autowired
 	private EnderecoRepository enderecoRepo;
-	
+
 	@Autowired
 	private BCryptPasswordEncoder encoder;
 
+	@Autowired
+	private S3Service s3;
+
 	public Cliente find(Integer id) {
 		UserSS u = UserService.authenticated();
-		
-		if (u!= null && !u.hasRole(Perfil.ADMIN) && !id.equals((u.getId()))) {
+
+		if (u != null && !u.hasRole(Perfil.ADMIN) && !id.equals((u.getId()))) {
 			throw new AuthorizationException("Acesso negado");
-			
+
 		}
-		
+
 		Optional<Cliente> obj = repo.findById(id);
 		return obj.orElseThrow(() -> new ObjectNotFoundException(
 				"Objeto não encontrado! Id: " + id + ", Tipo: " + Cliente.class.getName()));
@@ -86,14 +89,18 @@ public class ClienteService {
 
 	}
 
+	public URI uploadProfilePicture(MultipartFile mf) {
+		return s3.uploadFile(mf);
+
+	}
+
 	public Cliente fromDTO(ClienteDTO dto) {
 		return Cliente.builder().id(dto.getId()).nome(dto.getNome()).email(dto.getEmail()).build();
 	}
 
 	public Cliente fromDTO(ClienteNewDTO dto) {
 		Cliente cli = Cliente.builder().id(null).nome(dto.getNome()).email(dto.getEmail())
-				.senha(encoder.encode(dto.getSenha()))
-				.cpf_cnpj(dto.getCpf_cnpj())
+				.senha(encoder.encode(dto.getSenha())).cpf_cnpj(dto.getCpf_cnpj())
 				.tipo(TipoCliente.toEnum(dto.getTipo())).build();
 
 		Cidade c = Cidade.builder().id(dto.getCidadeId()).build();
