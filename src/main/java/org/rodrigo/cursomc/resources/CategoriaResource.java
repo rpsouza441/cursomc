@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 @RestController
@@ -46,6 +47,16 @@ public class CategoriaResource {
 		URI uri = gerarURI(obj);
 		return ResponseEntity.created(uri).build();
 	}
+	@PostMapping(value = "/image")
+	@PreAuthorize("hasAnyRole('ADMIN')")
+	public ResponseEntity<Void> insert(@Valid @RequestBody CategoriaDTO objDTO, @RequestParam(name = "file") MultipartFile file) {
+		Categoria obj = service.fromDTO(objDTO);
+		obj = service.insert(obj);
+		service.uploadPicture(file, obj.getId());
+		URI uri = gerarURI(obj);
+		return ResponseEntity.created(uri).build();
+	}
+	
 
 	@PutMapping(value = "/{id}")
 	@PreAuthorize("hasAnyRole('ADMIN')")

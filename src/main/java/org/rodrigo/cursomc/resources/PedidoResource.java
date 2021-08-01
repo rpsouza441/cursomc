@@ -4,9 +4,7 @@ import java.net.URI;
 
 import javax.validation.Valid;
 
-import org.rodrigo.cursomc.domain.Categoria;
 import org.rodrigo.cursomc.domain.Pedido;
-import org.rodrigo.cursomc.dto.CategoriaDTO;
 import org.rodrigo.cursomc.services.PedidoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;

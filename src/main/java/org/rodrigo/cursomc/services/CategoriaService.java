@@ -1,5 +1,7 @@
 package org.rodrigo.cursomc.services;
 
+import java.awt.image.BufferedImage;
+import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
@@ -9,17 +11,32 @@ import org.rodrigo.cursomc.repositories.CategoriaRepository;
 import org.rodrigo.cursomc.services.exception.DataIntegrityException;
 import org.rodrigo.cursomc.services.exception.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class CategoriaService {
 
 	@Autowired
 	private CategoriaRepository repo;
+
+	@Autowired
+	private S3Service s3;
+
+	@Autowired
+	private ImageService imageService;
+
+	@Value("${img.prefix.cat}")
+	private String prefix;
+
+	@Value("${img.profile.size}")
+	private Integer size;
+	
 
 	public Categoria find(Integer id) {
 		Optional<Categoria> obj = repo.findById(id);
@@ -64,5 +81,16 @@ public class CategoriaService {
 
 	private void updateData(Categoria newObj, Categoria obj) {
 		newObj.setNome(obj.getNome());
+	}
+
+		public URI uploadPicture(MultipartFile mf, Integer id) {
+		BufferedImage jpgImage = imageService.getJpgImageFromFile(mf);
+		jpgImage = imageService.cropSquare(jpgImage);
+		jpgImage = imageService.resize(jpgImage, size);
+
+		String fileName = prefix + id + ".jpg";
+
+		return s3.uploadFile(imageService.getInputStream(jpgImage, "jpg"), fileName, "image");
+
 	}
 }
