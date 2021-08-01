@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import org.rodrigo.cursomc.services.exception.FileException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +34,7 @@ public class S3Service {
 			String contentType = multiPartFile.getContentType();
 			return uploadFile(is, fileName, contentType);
 		} catch (IOException e) {
-			throw new RuntimeException("Erro de io: " + e);
+			throw new FileException("Erro de io: " + e);
 
 		}
 
@@ -48,7 +49,7 @@ public class S3Service {
 			LOG.info("Upload finalizado");
 			return s3client.getUrl(bucketName, fileName).toURI();
 		} catch (URISyntaxException e) {
-			throw new RuntimeException("Erro ao converter URL para URI");
+			throw new FileException("Erro ao converter URL para URI");
 		}
 	}
 }
