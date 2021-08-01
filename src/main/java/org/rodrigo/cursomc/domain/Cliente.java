@@ -49,7 +49,6 @@ public class Cliente implements Serializable {
 	private String cpf_cnpj;
 	private Integer tipo;
 	
-	private String imgUrl;
 
 	@ElementCollection
 	@CollectionTable(name = "TELEFONE")
@@ -115,7 +114,7 @@ public class Cliente implements Serializable {
 		this.tipo = (tipo == null) ? null : tipo.getCod();
 	}
 
-	public Cliente(Integer id, String nome, String email, String senha, String cpf_cnpj, Integer tipo, String imgurl,
+	public Cliente(Integer id, String nome, String email, String senha, String cpf_cnpj, Integer tipo, 
 			Set<String> telefones, Set<Integer> perfis, List<Endereco> listEndereco, List<Pedido> listaPedido) {
 		super();
 		this.id = id;
