@@ -43,7 +43,7 @@ public class Produto implements Serializable {
 	private @NonNull Double preco;
 
 	@JsonIgnore
-    @Getter(onMethod = @__( @JsonIgnore ))
+    //@Getter(onMethod = @__( @JsonIgnore ))
 	@ManyToMany
 	@JoinTable(name = "PRODUTO_CATEGORIA", joinColumns = @JoinColumn(name = "produto_id"), inverseJoinColumns = @JoinColumn(name = "categoria_id"))
 	private @Builder.Default List<Categoria> listaCategoria = new ArrayList<>();
@@ -58,5 +58,22 @@ public class Produto implements Serializable {
 		listaItemPedido.forEach(x -> lista.add(x.getPedido()));
 		return lista;
 	}
+
+	@JsonIgnore
+	public List<Categoria> getListaCategoria() {
+		if (this.listaCategoria==null) {
+			this.listaCategoria = new ArrayList<>();
+		}
+		return listaCategoria;
+	}
+
+	public Produto(Integer id, String nome, Double preco) {
+		super();
+		this.id = id;
+		this.nome = nome;
+		this.preco = preco;
+	}
+	
+	
 
 }
